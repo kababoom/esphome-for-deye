@@ -1,10 +1,10 @@
 substitutions:
-  name: deye12
-  device_description: "Esphome component for Deye sun-12k-sg04lp3"
+  name: deye
+  device_description: "Esphome component for Deye sun-sg04lp3"
   modbus_controller_id: sg04lp3
 
 esphome:
-  name: ${name}
+  name: deye-esp32
 
 esp32:
   board: esp32dev
@@ -16,9 +16,11 @@ logger:
 
 # Enable Home Assistant API
 api:
+  encryption:
+    key: "er+QomzUmVcVvuKfJaWBNIfuj/G3G3KvFGgQbkS5xXk="
 
 ota:
-  password: "123acd007175d48afaa2c944c3ccbb1e"
+  password: "3f41cea993cfbca3d9d808f9349cbbb0"
 
 wifi:
   ssid: !secret wifi_ssid
@@ -26,8 +28,8 @@ wifi:
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
-    ssid: "Deye12K Fallback Hotspot"
-    password: "36BiodTgKCJI"
+    ssid: "Deye-Esp32 Fallback Hotspot"
+    password: "RsPcxhzlJ00m"
 
 captive_portal:
 
@@ -47,13 +49,13 @@ modbus_controller:
     address: 0x1
     modbus_id: modbus1
     setup_priority: -10
-    update_interval: 15sec
+    update_interval: 5sec
   
 switch:
   - platform: modbus_controller
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    name: sun12k_Solar_sell
+    name: sun3p_Solar_sell
     register_type: holding
     address: 145
     bitmask: 1
@@ -63,7 +65,7 @@ switch:
   - platform: modbus_controller
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    name: sun12k-Grid_Charge
+    name: sun3p-Grid_Charge
     register_type: holding
     address: 130
     bitmask: 1
@@ -73,8 +75,8 @@ switch:
   - platform: modbus_controller  # Advanced peak shaving and valley filling function enabled
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    name: sun12k-Time of Use 
-    id: sun12k_Time_of_Use
+    name: sun3p-Time of Use 
+    id: sun3p_Time_of_Use
     register_type: holding
     address: 146
     bitmask: 1
@@ -84,7 +86,7 @@ switch:
   - platform: modbus_controller  # Time point 1 charge enable - grid charging enable
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    name: sun12k-Time point 1 charge enable
+    name: sun3p-Time point 1 charge enable
     register_type: holding
     address: 172
     bitmask: 1   # 2 hvis man ønsker Gen charging enabel i sted for.
@@ -94,7 +96,7 @@ switch:
   - platform: modbus_controller  # Time point 2 charge enable - grid charging enable
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    name: sun12k-Time point 2 charge enable
+    name: sun3p-Time point 2 charge enable
     register_type: holding
     address: 173
     bitmask: 1    # 2 hvis man ønsker Gen charging enabel i sted for.
@@ -104,7 +106,7 @@ switch:
   - platform: modbus_controller  # Time point 3 charge enable - grid charging enable
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    name: sun12k-Time point 3 charge enable
+    name: sun3p-Time point 3 charge enable
     register_type: holding
     address: 174
     bitmask: 1    # 2 hvis man ønsker Gen charging enabel i sted for.
@@ -114,7 +116,7 @@ switch:
   - platform: modbus_controller  # Time point 4 charge enable - grid charging enable
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    name: sun12k-Time point 4 charge enable
+    name: sun3p-Time point 4 charge enable
     register_type: holding
     address: 175
     bitmask: 1    # 2 hvis man ønsker Gen charging enabel i sted for.
@@ -124,7 +126,7 @@ switch:
   - platform: modbus_controller  # Time point 5 charge enable - grid charging enable
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    name: sun12k-Time point 5 charge enable
+    name: sun3p-Time point 5 charge enable
     register_type: holding
     address: 176
     bitmask: 1    # 2 hvis man ønsker Gen charging enabel i sted for.
@@ -134,7 +136,7 @@ switch:
   - platform: modbus_controller  # Time point 6 charge enable - grid charging enable
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    name: sun12k-Time point 6 charge enable
+    name: sun3p-Time point 6 charge enable
     register_type: holding
     address: 177
     bitmask: 1    # 2 hvis man ønsker Gen charging enabel i sted for.
@@ -144,40 +146,40 @@ switch:
 binary_sensor:
    - platform: modbus_controller
      modbus_controller_id: ${modbus_controller_id}
-     name: sun12k-AC INV relay # bit 0
-     id: sun12k_AC_INV_relay
+     name: sun3p-AC INV relay # bit 0
+     id: sun3p_AC_INV_relay
      register_type: holding
      address: 552
      bitmask: 0x1
  
    - platform: modbus_controller
      modbus_controller_id: ${modbus_controller_id}
-     name: sun12k-AC Load relay Reserved # bit 1
-     id: sun12k_AC_Load_relay_Reserved
+     name: sun3p-AC Load relay Reserved # bit 1
+     id: sun3p_AC_Load_relay_Reserved
      register_type: holding
      address: 552
      bitmask: 0x2
  
    - platform: modbus_controller
      modbus_controller_id: ${modbus_controller_id}
-     name: sun12k-AC grid relay # bit 2
-     id: sun12k_AC_grid_relay
+     name: sun3p-AC grid relay # bit 2
+     id: sun3p_AC_grid_relay
      register_type: holding
      address: 552
      bitmask: 0x4
  
    - platform: modbus_controller
      modbus_controller_id: ${modbus_controller_id}
-     name: sun12k-AC Generator relay # bit 3
-     id: sun12k_AC_Generator_relay
+     name: sun3p-AC Generator relay # bit 3
+     id: sun3p_AC_Generator_relay
      register_type: holding
      address: 552
      bitmask: 0x8
  
    - platform: modbus_controller
      modbus_controller_id: ${modbus_controller_id}
-     name: sun12k-Turn off/on status   #The lower 4 bits represent the switch signal
-     id: sun12k_Turn_off_on_status
+     name: sun3p-Turn off/on status   #The lower 4 bits represent the switch signal
+     id: sun3p_Turn_off_on_status
      register_type: holding
      address: 551
      bitmask: 0x1
@@ -185,12 +187,12 @@ binary_sensor:
 text_sensor:
    - platform: modbus_controller
      modbus_controller_id: ${modbus_controller_id}
-     id: sun12k_Running_Status
+     id: sun3p_Running_Status
      bitmask: 0
      register_type: holding
      address: 500
      raw_encode: HEXBYTES
-     name: sun12k-Running Status
+     name: sun3p-Running Status
      lambda: |-
        uint16_t value = modbus_controller::word_from_hex_str(x, 0);
        switch (value) {
@@ -203,212 +205,575 @@ text_sensor:
        }
        return x;
 
+select:
+  - platform: modbus_controller
+    use_write_multiple: true
+    modbus_controller_id: ${modbus_controller_id}
+    name: "sun3p-Limit control mode"
+    id: sun3p_limit_control_mode
+    address: 142
+    value_type: U_WORD
+    optionsmap:
+      "Allow Export": 0
+      # "Essentials": 1
+      "Zero Export": 2
+
+  - platform: modbus_controller
+    use_write_multiple: true
+    modbus_controller_id: ${modbus_controller_id}
+    id: sun3p_Time_point_1_start
+    name: "sun3p-Time point 1 start"
+    address: 148
+    value_type: U_WORD
+    optionsmap:
+      "00:00": 0
+      "01:00": 100
+      "02:00": 200
+      "03:00": 300
+      "04:00": 400
+      "05:00": 500
+      "06:00": 600
+      "07:00": 700
+      "08:00": 800
+      "09:00": 900
+      "10:00": 1000
+      "11:00": 1100
+      "12:00": 1200
+      "13:00": 1300
+      "14:00": 1400
+      "15:00": 1500
+      "16:00": 1600
+      "17:00": 1700
+      "18:00": 1800
+      "19:00": 1900
+      "20:00": 2000
+      "21:00": 2100
+      "22:00": 2200
+      "23:00": 2300
+      "24:00": 2400
+
+  - platform: modbus_controller
+    use_write_multiple: true
+    modbus_controller_id: ${modbus_controller_id}
+    id: sun3p_Time_point_2_start
+    name: "sun3p-Time point 2 start"
+    address: 149
+    value_type: U_WORD
+    optionsmap:
+      "00:00": 0
+      "01:00": 100
+      "02:00": 200
+      "03:00": 300
+      "04:00": 400
+      "05:00": 500
+      "06:00": 600
+      "07:00": 700
+      "08:00": 800
+      "09:00": 900
+      "10:00": 1000
+      "11:00": 1100
+      "12:00": 1200
+      "13:00": 1300
+      "14:00": 1400
+      "15:00": 1500
+      "16:00": 1600
+      "17:00": 1700
+      "18:00": 1800
+      "19:00": 1900
+      "20:00": 2000
+      "21:00": 2100
+      "22:00": 2200
+      "23:00": 2300
+      "24:00": 2400
+
+  - platform: modbus_controller
+    use_write_multiple: true
+    modbus_controller_id: ${modbus_controller_id}
+    id: sun3p_Time_point_3_start
+    name: "sun3p-Time point 3 start"
+    address: 150
+    value_type: U_WORD
+    optionsmap:
+      "00:00": 0
+      "01:00": 100
+      "02:00": 200
+      "03:00": 300
+      "04:00": 400
+      "05:00": 500
+      "06:00": 600
+      "07:00": 700
+      "08:00": 800
+      "09:00": 900
+      "10:00": 1000
+      "11:00": 1100
+      "12:00": 1200
+      "13:00": 1300
+      "14:00": 1400
+      "15:00": 1500
+      "16:00": 1600
+      "17:00": 1700
+      "18:00": 1800
+      "19:00": 1900
+      "20:00": 2000
+      "21:00": 2100
+      "22:00": 2200
+      "23:00": 2300
+      "24:00": 2400
+
+  - platform: modbus_controller
+    use_write_multiple: true
+    modbus_controller_id: ${modbus_controller_id}
+    id: sun3p_Time_point_4_start
+    name: "sun3p-Time point 4 start"
+    address: 151
+    value_type: U_WORD
+    optionsmap:
+      "00:00": 0
+      "01:00": 100
+      "02:00": 200
+      "03:00": 300
+      "04:00": 400
+      "05:00": 500
+      "06:00": 600
+      "07:00": 700
+      "08:00": 800
+      "09:00": 900
+      "10:00": 1000
+      "11:00": 1100
+      "12:00": 1200
+      "13:00": 1300
+      "14:00": 1400
+      "15:00": 1500
+      "16:00": 1600
+      "17:00": 1700
+      "18:00": 1800
+      "19:00": 1900
+      "20:00": 2000
+      "21:00": 2100
+      "22:00": 2200
+      "23:00": 2300
+      "24:00": 2400
+
+  - platform: modbus_controller
+    use_write_multiple: true
+    modbus_controller_id: ${modbus_controller_id}
+    id: sun3p_Time_point_5_start
+    name: "sun3p-Time point 5 start"
+    address: 152
+    value_type: U_WORD
+    optionsmap:
+      "00:00": 0
+      "01:00": 100
+      "02:00": 200
+      "03:00": 300
+      "04:00": 400
+      "05:00": 500
+      "06:00": 600
+      "07:00": 700
+      "08:00": 800
+      "09:00": 900
+      "10:00": 1000
+      "11:00": 1100
+      "12:00": 1200
+      "13:00": 1300
+      "14:00": 1400
+      "15:00": 1500
+      "16:00": 1600
+      "17:00": 1700
+      "18:00": 1800
+      "19:00": 1900
+      "20:00": 2000
+      "21:00": 2100
+      "22:00": 2200
+      "23:00": 2300
+      "24:00": 2400
+
+  - platform: modbus_controller
+    use_write_multiple: true
+    modbus_controller_id: ${modbus_controller_id}
+    id: sun3p_Time_point_6_start
+    name: "sun3p-Time point 6 start"
+    address: 153
+    value_type: U_WORD
+    optionsmap:
+      "00:00": 0
+      "01:00": 100
+      "02:00": 200
+      "03:00": 300
+      "04:00": 400
+      "05:00": 500
+      "06:00": 600
+      "07:00": 700
+      "08:00": 800
+      "09:00": 900
+      "10:00": 1000
+      "11:00": 1100
+      "12:00": 1200
+      "13:00": 1300
+      "14:00": 1400
+      "15:00": 1500
+      "16:00": 1600
+      "17:00": 1700
+      "18:00": 1800
+      "19:00": 1900
+      "20:00": 2000
+      "21:00": 2100
+      "22:00": 2200
+      "23:00": 2300
+      "24:00": 2400
+
 number:
   - platform: modbus_controller
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Maximum_battery_charge_current
-    name: "sun12k-Maximum battery charge current"
+    id: sun3p_Maximum_battery_charge_current
+    name: "sun3p-Maximum battery charge current"
     address: 108
+    step: 1
     unit_of_measurement: A
+    min_value: 1
+    max_value: 100    
+    mode: slider
     value_type: U_WORD
     
   - platform: modbus_controller
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Maximum_battery_discharge_current
-    name: "sun12k-Maximum battery discharge current"
+    id: sun3p_Maximum_battery_discharge_current
+    name: "sun3p-Maximum battery discharge current"
     address: 109
+    step: 1
     unit_of_measurement: A
+    min_value: 1
+    max_value: 100    
+    mode: slider
     value_type: U_WORD
 
   - platform: modbus_controller
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Maximum_battery_grid_charge_current
-    name: "sun12k-Maximum battery_grid charge current"
+    id: sun3p_Maximum_battery_grid_charge_current
+    name: "sun3p-Maximum battery_grid charge current"
     address: 128
+    step: 1
     unit_of_measurement: A
+    min_value: 1
+    max_value: 100    
+    mode: slider
     value_type: U_WORD
 
-  - platform: modbus_controller
-    use_write_multiple: true
-    modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Time_point_1
-    name: "sun12k-Time point 1 start"
-    address: 148
-    value_type: U_WORD
+  # - platform: modbus_controller
+  #   use_write_multiple: true
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   id: sun3p_Time_point_1
+  #   name: "sun3p-Time point 1 start"
+  #   min_value: 0
+  #   max_value: 2400
+  #   step: 100
+  #   address: 148
+  #   value_type: U_WORD   
+
+  # - platform: modbus_controller
+  #   use_write_multiple: true
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   id: sun3p_Time_point_1_new
+  #   name: "sun3p-Time point 1 new"
+  #   min_value: 0
+  #   max_value: 24
+  #   step: 0.01
+  #   address: 148
+  #   lambda: "return  x * 0.01;"
+  #   write_lambda: "return  x * 100;"
+  #   value_type: U_WORD      
+  
+  # - platform: modbus_controller
+  #   use_write_multiple: true
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   id: sun3p_Time_point_2
+  #   name: "sun3p-Time point 2 start"
+  #   min_value: 0
+  #   max_value: 2400
+  #   step: 100
+  #   address: 149
+  #   value_type: U_WORD
+    
+  # - platform: modbus_controller
+  #   use_write_multiple: true
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   id: sun3p_Time_point_3
+  #   name: "sun3p-Time point 3 start"
+  #   min_value: 0
+  #   max_value: 2400
+  #   step: 100
+  #   address: 150
+  #   value_type: U_WORD
+    
+  # - platform: modbus_controller
+  #   use_write_multiple: true
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   id: sun3p_Time_point_4
+  #   name: "sun3p-Time point 4 start"
+  #   min_value: 0
+  #   max_value: 2400
+  #   step: 100
+  #   address: 151
+  #   value_type: U_WORD
+    
+  # - platform: modbus_controller
+  #   use_write_multiple: true
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   id: sun3p_Time_point_5
+  #   name: "sun3p-Time point 5 start"
+  #   min_value: 0
+  #   max_value: 2400
+  #   step: 100
+  #   address: 152
+  #   value_type: U_WORD
+    
+  # - platform: modbus_controller
+  #   use_write_multiple: true
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   id: sun3p_Time_point_6
+  #   name: "sun3p-Time point 6 start"
+  #   min_value: 0
+  #   max_value: 2400
+  #   step: 100
+  #   address: 153
+  #   value_type: U_WORD
     
   - platform: modbus_controller
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Time_point_2
-    name: "sun12k-Time point 2 start"
-    address: 149
-    value_type: U_WORD
-    
-  - platform: modbus_controller
-    use_write_multiple: true
-    modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Time_point_3
-    name: "sun12k-Time point 3 start"
-    address: 150
-    value_type: U_WORD
-    
-  - platform: modbus_controller
-    use_write_multiple: true
-    modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Time_point_4
-    name: "sun12k-Time point 4 start"
-    address: 151
-    value_type: U_WORD
-    
-  - platform: modbus_controller
-    use_write_multiple: true
-    modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Time_point_5
-    name: "sun12k-Time point 5 start"
-    address: 152
-    value_type: U_WORD
-    
-  - platform: modbus_controller
-    use_write_multiple: true
-    modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Time_point_6
-    name: "sun12k-Time point 6 start"
-    address: 153
-    value_type: U_WORD
-    
-  - platform: modbus_controller
-    use_write_multiple: true
-    modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Time_point_1_power
-    name: "sun12k-Time point 1 power"
+    id: sun3p_Time_point_1_power
+    name: "sun3p-Time point 1 power"
     unit_of_measurement: W
+    min_value: 0
+    max_value: 8000
+    step: 100
+    mode: slider
     address: 154
     value_type: U_WORD
     
   - platform: modbus_controller
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Time_point_2_power
-    name: "sun12k-Time point 2 power"
+    id: sun3p_Time_point_2_power
+    name: "sun3p-Time point 2 power"
     unit_of_measurement: W
+    min_value: 0
+    max_value: 8000
+    step: 100
     address: 155
     value_type: U_WORD
     
   - platform: modbus_controller
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Time_point_3_power
-    name: "sun12k-Time point 3 power"
+    id: sun3p_Time_point_3_power
+    name: "sun3p-Time point 3 power"
     unit_of_measurement: W
+    min_value: 0
+    max_value: 8000
+    step: 100
     address: 156
     value_type: U_WORD
     
   - platform: modbus_controller
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Time_point_4_power
-    name: "sun12k-Time point 4 power"
+    id: sun3p_Time_point_4_power
+    name: "sun3p-Time point 4 power"
     unit_of_measurement: W
+    min_value: 0
+    max_value: 8000
+    step: 100
     address: 157
     value_type: U_WORD
     
   - platform: modbus_controller
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Time_point_5_power
-    name: "sun12k-Time point 5 power"
+    id: sun3p_Time_point_5_power
+    name: "sun3p-Time point 5 power"
     unit_of_measurement: W
+    min_value: 0
+    max_value: 8000
+    step: 100
     address: 158
     value_type: U_WORD
     
   - platform: modbus_controller
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Time_point_6_power
-    name: "sun12k-Time point 6 power"
+    id: sun3p_Time_point_6_power
+    name: "sun3p-Time point 6 power"
     unit_of_measurement: W
+    min_value: 0
+    max_value: 8000
+    step: 100
     address: 159
     value_type: U_WORD
 
   - platform: modbus_controller
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Time_point_1_capacity
-    name: "sun12k-Time point 1 capacity"
-    unit_of_measurement: "%"
-    address: 166
-    min_value: 0
-    max_value: 100
-    step: 5
-    value_type: U_WORD
-    
+    id: sun3p_Time_point_1_voltage
+    name: "sun3p-Time point 1 voltage"
+    unit_of_measurement: "V"
+    address: 160
+    min_value: 49
+    max_value: 55.5
+    step: 0.1
+    lambda: "return  x * 0.01;"
+    write_lambda: "return  x * 100;"
+    value_type: U_WORD   
+
   - platform: modbus_controller
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Time_point_2_capacity
-    name: "sun12k-Time point 2 capacity"
-    unit_of_measurement: "%"
-    address: 167
-    min_value: 0
-    max_value: 100
-    step: 5
-    value_type: U_WORD
-    
+    id: sun3p_Time_point_2_voltage
+    name: "sun3p-Time point 2 voltage"
+    unit_of_measurement: "V"
+    address: 161
+    min_value: 49
+    max_value: 55.5
+    step: 0.1
+    lambda: "return  x * 0.01;"
+    write_lambda: "return  x * 100;"
+    value_type: U_WORD   
+
   - platform: modbus_controller
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Time_point_3_capacity
-    name: "sun12k-Time point 3 capacity"
-    unit_of_measurement: "%"
-    address: 168
-    min_value: 0
-    max_value: 100
-    step: 5
-    value_type: U_WORD
-    
+    id: sun3p_Time_point_3_voltage
+    name: "sun3p-Time point 3 voltage"
+    unit_of_measurement: "V"
+    address: 162
+    min_value: 49
+    max_value: 55.5
+    step: 0.1
+    lambda: "return  x * 0.01;"
+    write_lambda: "return  x * 100;"
+    value_type: U_WORD   
+
   - platform: modbus_controller
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Time_point_4_capacity
-    name: "sun12k-Time point 4 capacity"
-    unit_of_measurement: "%"
-    address: 169
-    min_value: 0
-    max_value: 100
-    step: 5
-    value_type: U_WORD
-    
+    id: sun3p_Time_point_4_voltage
+    name: "sun3p-Time point 4 voltage"
+    unit_of_measurement: "V"
+    address: 163
+    min_value: 49
+    max_value: 55.5
+    step: 0.1
+    lambda: "return  x * 0.01;"
+    write_lambda: "return  x * 100;"
+    value_type: U_WORD   
+
   - platform: modbus_controller
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Time_point_5_capacity
-    name: "sun12k-Time point 5 capacity"
-    unit_of_measurement: "%"
-    address: 170
-    min_value: 0
-    max_value: 100
-    step: 5
-    value_type: U_WORD
-    
+    id: sun3p_Time_point_5_voltage
+    name: "sun3p-Time point 5 voltage"
+    unit_of_measurement: "V"
+    address: 164
+    min_value: 49
+    max_value: 55.5
+    step: 0.1
+    lambda: "return  x * 0.01;"
+    write_lambda: "return  x * 100;"
+    value_type: U_WORD   
+
   - platform: modbus_controller
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
-    id: sun12k_Time_point_6_capacity
-    name: "sun12k-Time point 6 capacity"
-    unit_of_measurement: "%"
-    address: 171
-    min_value: 0
-    max_value: 100
-    value_type: U_WORD
+    id: sun3p_Time_point_6_voltage
+    name: "sun3p-Time point 6 voltage"
+    unit_of_measurement: "V"
+    address: 165
+    min_value: 49
+    max_value: 55.5
+    step: 0.1
+    lambda: "return  x * 0.01;"
+    write_lambda: "return  x * 100;"
+    value_type: U_WORD   
+
+  # - platform: modbus_controller
+  #   use_write_multiple: true
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   id: sun3p_Time_point_1_capacity
+  #   name: "sun3p-Time point 1 capacity"
+  #   unit_of_measurement: "%"
+  #   address: 166
+  #   min_value: 0
+  #   max_value: 100
+  #   step: 5
+  #   value_type: U_WORD
+    
+  # - platform: modbus_controller
+  #   use_write_multiple: true
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   id: sun3p_Time_point_2_capacity
+  #   name: "sun3p-Time point 2 capacity"
+  #   unit_of_measurement: "%"
+  #   address: 167
+  #   min_value: 0
+  #   max_value: 100
+  #   step: 5
+  #   value_type: U_WORD
+    
+  # - platform: modbus_controller
+  #   use_write_multiple: true
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   id: sun3p_Time_point_3_capacity
+  #   name: "sun3p-Time point 3 capacity"
+  #   unit_of_measurement: "%"
+  #   address: 168
+  #   min_value: 0
+  #   max_value: 100
+  #   step: 5
+  #   value_type: U_WORD
+    
+  # - platform: modbus_controller
+  #   use_write_multiple: true
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   id: sun3p_Time_point_4_capacity
+  #   name: "sun3p-Time point 4 capacity"
+  #   unit_of_measurement: "%"
+  #   address: 169
+  #   min_value: 0
+  #   max_value: 100
+  #   step: 5
+  #   value_type: U_WORD
+    
+  # - platform: modbus_controller
+  #   use_write_multiple: true
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   id: sun3p_Time_point_5_capacity
+  #   name: "sun3p-Time point 5 capacity"
+  #   unit_of_measurement: "%"
+  #   address: 170
+  #   min_value: 0
+  #   max_value: 100
+  #   step: 5
+  #   value_type: U_WORD
+    
+  # - platform: modbus_controller
+  #   use_write_multiple: true
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   id: sun3p_Time_point_6_capacity
+  #   name: "sun3p-Time point 6 capacity"
+  #   unit_of_measurement: "%"
+  #   address: 171
+  #   min_value: 0
+  #   max_value: 100
+  #   value_type: U_WORD
 
 sensor:
-  - platform: modbus_controller #sun12k-køleplade temeratur
+  - platform: modbus_controller #sun3p-køleplade temeratur
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Heat sink temperature"
-    id: sun12k_koleplade_temeratur
+    name: "sun3p-Heat sink temperature"
+    id: sun3p_koleplade_temeratur
     register_type: holding
     address: 541
     unit_of_measurement: "°C"
@@ -418,138 +783,138 @@ sensor:
       - offset: -1000
       - multiply:  0.1
  
-  - platform: modbus_controller #sun12k-load frequency
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-load frequency"
-    id: sun12k_load_frequency
-    register_type: holding
-    address: 655
-    unit_of_measurement: "Hz"
-    state_class: "measurement"
-    accuracy_decimals: 2
-    filters:
-      - multiply: 0.01
-    value_type: U_WORD
+  # - platform: modbus_controller #sun3p-load frequency
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-load frequency"
+  #   id: sun3p_load_frequency
+  #   register_type: holding
+  #   address: 655
+  #   unit_of_measurement: "Hz"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 2
+  #   filters:
+  #     - multiply: 0.01
+  #   value_type: U_WORD
  
-  - platform: modbus_controller #sun12k-inverter-frequency
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-inverter-frequency"
-    id: sun12k_inverter_frequency
-    register_type: holding
-    address: 638
-    unit_of_measurement: "Hz"
-    state_class: "measurement"
-    accuracy_decimals: 2
-    filters:
-      - multiply: 0.01
-    value_type: U_WORD
+  # - platform: modbus_controller #sun3p-inverter-frequency
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-inverter-frequency"
+  #   id: sun3p_inverter_frequency
+  #   register_type: holding
+  #   address: 638
+  #   unit_of_measurement: "Hz"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 2
+  #   filters:
+  #     - multiply: 0.01
+  #   value_type: U_WORD
+ 
+  # - platform: modbus_controller
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-PV1 Power"
+  #   id: sun3p_PV1_Power
+  #   register_type: holding
+  #   address: 672
+  #   unit_of_measurement: "W"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 0
+  #   value_type: U_WORD
+ 
+  # - platform: modbus_controller
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-PV2 Power"
+  #   id: sun3p_PV2_Power
+  #   register_type: holding
+  #   address: 673
+  #   unit_of_measurement: "W"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 0
+  #   value_type: U_WORD
+ 
+  # - platform: modbus_controller
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-PV1 Voltage"
+  #   id: sun3p_PV1_Voltage
+  #   register_type: holding
+  #   address: 676
+  #   unit_of_measurement: "V"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 0
+  #   filters:
+  #     - multiply: 0.1
+  #   value_type: U_WORD
+ 
+  # - platform: modbus_controller
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-PV2 Voltage"
+  #   id: sun3p_PV2_Voltage
+  #   register_type: holding
+  #   address: 678
+  #   unit_of_measurement: "V"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 0
+  #   filters:
+  #     - multiply: 0.1
+  #   value_type: U_WORD
+ 
+  # - platform: modbus_controller
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-PV1 Current"
+  #   id: sun3p_PV1_Current
+  #   register_type: holding
+  #   address: 677
+  #   unit_of_measurement: "A"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 1
+  #   filters:
+  #     - multiply: 0.1
+  #   value_type: U_WORD
+ 
+  # - platform: modbus_controller
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-PV2 Current"
+  #   id: sun3p_PV2_Current
+  #   register_type: holding
+  #   address: 679
+  #   unit_of_measurement: "A"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 1
+  #   filters:
+  #     - multiply: 0.1
+  #   value_type: U_WORD  
+ 
+  # - platform: modbus_controller
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-Daily Production"
+  #   id: sun3p_Daily_Production
+  #   register_type: holding
+  #   address: 529
+  #   unit_of_measurement: "kWh"
+  #   state_class: "total_increasing"
+  #   device_class: energy
+  #   accuracy_decimals: 1
+  #   filters:
+  #     - multiply: 0.1
+  #   value_type: U_WORD  
+ 
+  # - platform: modbus_controller
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-Total PV Production"  #Cumulative Production 
+  #   id: sun3p_Total_PV_Production
+  #   register_type: holding
+  #   address: 534
+  #   unit_of_measurement: "kWh"
+  #   state_class: "measurement"
+  #   device_class: energy
+  #   accuracy_decimals: 1
+  #   value_type: U_DWORD_R
+  #   filters:
+  #     - multiply: 0.1
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-PV1 Power"
-    id: sun12k_PV1_Power
-    register_type: holding
-    address: 672
-    unit_of_measurement: "W"
-    state_class: "measurement"
-    accuracy_decimals: 0
-    value_type: U_WORD
- 
-  - platform: modbus_controller
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-PV2 Power"
-    id: sun12k_PV2_Power
-    register_type: holding
-    address: 673
-    unit_of_measurement: "W"
-    state_class: "measurement"
-    accuracy_decimals: 0
-    value_type: U_WORD
- 
-  - platform: modbus_controller
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-PV1 Voltage"
-    id: sun12k_PV1_Voltage
-    register_type: holding
-    address: 676
-    unit_of_measurement: "V"
-    state_class: "measurement"
-    accuracy_decimals: 0
-    filters:
-      - multiply: 0.1
-    value_type: U_WORD
- 
-  - platform: modbus_controller
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-PV2 Voltage"
-    id: sun12k_PV2_Voltage
-    register_type: holding
-    address: 678
-    unit_of_measurement: "V"
-    state_class: "measurement"
-    accuracy_decimals: 0
-    filters:
-      - multiply: 0.1
-    value_type: U_WORD
- 
-  - platform: modbus_controller
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-PV1 Current"
-    id: sun12k_PV1_Current
-    register_type: holding
-    address: 677
-    unit_of_measurement: "A"
-    state_class: "measurement"
-    accuracy_decimals: 1
-    filters:
-      - multiply: 0.1
-    value_type: U_WORD
- 
-  - platform: modbus_controller
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-PV2 Current"
-    id: sun12k_PV2_Current
-    register_type: holding
-    address: 679
-    unit_of_measurement: "A"
-    state_class: "measurement"
-    accuracy_decimals: 1
-    filters:
-      - multiply: 0.1
-    value_type: U_WORD  
- 
-  - platform: modbus_controller
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Daily Production"
-    id: sun12k_Daily_Production
-    register_type: holding
-    address: 529
-    unit_of_measurement: "kWh"
-    state_class: "total_increasing"
-    device_class: energy
-    accuracy_decimals: 1
-    filters:
-      - multiply: 0.1
-    value_type: U_WORD  
- 
-  - platform: modbus_controller
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Total PV Production"  #Cumulative Production 
-    id: sun12k_Total_PV_Production
-    register_type: holding
-    address: 534
-    unit_of_measurement: "kWh"
-    state_class: "measurement"
-    device_class: energy
-    accuracy_decimals: 1
-    value_type: U_DWORD_R
-    filters:
-      - multiply: 0.1
- 
-  - platform: modbus_controller
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Total Grid Power"   # Grid side total power
-    id: sun12k_Total_Grid_Power
+    name: "sun3p-Total Grid Power"   # Grid side total power
+    id: sun3p_Total_Grid_Power
     register_type: holding
     address: 625
     unit_of_measurement: "W"
@@ -559,8 +924,8 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Daily Energy Bought"
-    id: sun12k_Daily_Energy_Bought
+    name: "sun3p-Daily Energy Bought"
+    id: sun3p_Daily_Energy_Bought
     register_type: holding
     address: 520
     unit_of_measurement: "kWh"
@@ -573,8 +938,8 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Daily Energy Sold"
-    id: sun12k_Daily_Energy_Sold
+    name: "sun3p-Daily Energy Sold"
+    id: sun3p_Daily_Energy_Sold
     register_type: holding
     address: 521
     unit_of_measurement: "kWh"
@@ -587,8 +952,8 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Total Energy Bought"
-    id: sun12k_Total_Energy_Bought
+    name: "sun3p-Total Energy Bought"
+    id: sun3p_Total_Energy_Bought
     register_type: holding
     address: 522
     unit_of_measurement: "kWh"
@@ -601,8 +966,8 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Total Energy Sold"
-    id: sun12k_Total_Energy_Sold
+    name: "sun3p-Total Energy Sold"
+    id: sun3p_Total_Energy_Sold
     register_type: holding
     address: 524
     unit_of_measurement: "kWh"
@@ -615,8 +980,8 @@ sensor:
  
   - platform: modbus_controller #Total Consumption
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Total Consumption"
-    id: sun12k_Total_Consumption
+    name: "sun3p-Total Consumption"
+    id: sun3p_Total_Consumption
     register_type: holding
     address: 527
     unit_of_measurement: "kWh"
@@ -629,8 +994,8 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-active power generation of today"
-    id: sun12k_active_power_generation_of_today
+    name: "sun3p-active power generation of today"
+    id: sun3p_active_power_generation_of_today
     register_type: holding
     address: 502
     unit_of_measurement: "kWh"
@@ -643,8 +1008,8 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Grid Current L1"
-    id: sun12k_Grid_Current_L1
+    name: "sun3p-Grid Current L1"
+    id: sun3p_Grid_Current_L1
     register_type: holding
     address: 630
     unit_of_measurement: "A"
@@ -656,8 +1021,8 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Grid Current L2"
-    id: sun12k_Grid_Current_L2
+    name: "sun3p-Grid Current L2"
+    id: sun3p_Grid_Current_L2
     register_type: holding
     address: 631
     unit_of_measurement: "A"
@@ -669,8 +1034,8 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Grid Current L3"
-    id: sun12k_Grid_Current_L3
+    name: "sun3p-Grid Current L3"
+    id: sun3p_Grid_Current_L3
     register_type: holding
     address: 632
     unit_of_measurement: "A"
@@ -680,149 +1045,149 @@ sensor:
       - multiply: 0.01
     value_type: S_WORD   
  
-  - platform: modbus_controller
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Grid Voltage L1"
-    id: sun12k_Grid_Voltage_L1
-    register_type: holding
-    address: 598
-    unit_of_measurement: "V"
-    state_class: "measurement"
-    accuracy_decimals: 0
-    filters:
-      - multiply: 0.1
-    value_type: U_WORD     
+  # - platform: modbus_controller
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-Grid Voltage L1"
+  #   id: sun3p_Grid_Voltage_L1
+  #   register_type: holding
+  #   address: 598
+  #   unit_of_measurement: "V"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 0
+  #   filters:
+  #     - multiply: 0.1
+  #   value_type: U_WORD     
  
-  - platform: modbus_controller
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Grid Voltage L2"
-    id: sun12k_Grid_Voltage_L2
-    register_type: holding
-    address: 599
-    unit_of_measurement: "V"
-    state_class: "measurement"
-    accuracy_decimals: 0
-    filters:
-      - multiply: 0.1
-    value_type: U_WORD     
+  # - platform: modbus_controller
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-Grid Voltage L2"
+  #   id: sun3p_Grid_Voltage_L2
+  #   register_type: holding
+  #   address: 599
+  #   unit_of_measurement: "V"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 0
+  #   filters:
+  #     - multiply: 0.1
+  #   value_type: U_WORD     
  
-  - platform: modbus_controller
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Grid Voltage L3"
-    id: sun12k_Grid_Voltage_L3
-    register_type: holding
-    address: 600
-    unit_of_measurement: "V"
-    state_class: "measurement"
-    accuracy_decimals: 0
-    filters:
-      - multiply: 0.1
-    value_type: U_WORD  
+  # - platform: modbus_controller
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-Grid Voltage L3"
+  #   id: sun3p_Grid_Voltage_L3
+  #   register_type: holding
+  #   address: 600
+  #   unit_of_measurement: "V"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 0
+  #   filters:
+  #     - multiply: 0.1
+  #   value_type: U_WORD  
 
  
-  - platform: modbus_controller
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Internal CT L1 Power"
-    id: sun12k_Internal_CT_L1_Power
-    register_type: holding
-    address: 604
-    unit_of_measurement: "W"
-    state_class: "measurement"
-    accuracy_decimals: 0
-    value_type: S_WORD  
+  # - platform: modbus_controller
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-Internal CT L1 Power"
+  #   id: sun3p_Internal_CT_L1_Power
+  #   register_type: holding
+  #   address: 604
+  #   unit_of_measurement: "W"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 0
+  #   value_type: S_WORD  
  
-  - platform: modbus_controller
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Internal CT L2 Power"
-    id: sun12k_Internal_CT_L2_Power
-    register_type: holding
-    address: 605
-    unit_of_measurement: "W"
-    state_class: "measurement"
-    accuracy_decimals: 0
-    value_type: S_WORD  
+  # - platform: modbus_controller
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-Internal CT L2 Power"
+  #   id: sun3p_Internal_CT_L2_Power
+  #   register_type: holding
+  #   address: 605
+  #   unit_of_measurement: "W"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 0
+  #   value_type: S_WORD  
  
-  - platform: modbus_controller
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Internal CT L3 Power"
-    id: sun12k_Internal_CT_L3_Power
-    register_type: holding
-    address: 606
-    unit_of_measurement: "W"
-    state_class: "measurement"
-    accuracy_decimals: 0
-    value_type: S_WORD  
+  # - platform: modbus_controller
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-Internal CT L3 Power"
+  #   id: sun3p_Internal_CT_L3_Power
+  #   register_type: holding
+  #   address: 606
+  #   unit_of_measurement: "W"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 0
+  #   value_type: S_WORD  
  
-  - platform: modbus_controller  # Grid internal - total active power
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Internal total Power" 
-    id: sun12k_Internal_total_Power
-    register_type: holding
-    address: 607
-    unit_of_measurement: "W"
-    state_class: "measurement"
-    accuracy_decimals: 0
-    value_type: S_WORD   
+  # - platform: modbus_controller  # Grid internal - total active power
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-Internal total Power" 
+  #   id: sun3p_Internal_total_Power
+  #   register_type: holding
+  #   address: 607
+  #   unit_of_measurement: "W"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 0
+  #   value_type: S_WORD   
  
-  - platform: modbus_controller
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-External CT L1 Power"
-    id: sun12k_External_CT_L1_Power
-    register_type: holding
-    address: 616
-    unit_of_measurement: "W"
-    state_class: "measurement"
-    accuracy_decimals: 0
-    value_type: S_WORD  
+  # - platform: modbus_controller
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-External CT L1 Power"
+  #   id: sun3p_External_CT_L1_Power
+  #   register_type: holding
+  #   address: 616
+  #   unit_of_measurement: "W"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 0
+  #   value_type: S_WORD  
  
-  - platform: modbus_controller
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-External CT L2 Power"
-    id: sun12k_External_CT_L2_Power
-    register_type: holding
-    address: 617
-    unit_of_measurement: "W"
-    state_class: "measurement"
-    accuracy_decimals: 0
-    value_type: S_WORD  
+  # - platform: modbus_controller
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-External CT L2 Power"
+  #   id: sun3p_External_CT_L2_Power
+  #   register_type: holding
+  #   address: 617
+  #   unit_of_measurement: "W"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 0
+  #   value_type: S_WORD  
  
-  - platform: modbus_controller
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-External CT L3 Power"
-    id: sun12k_External_CT_L3_Power
-    register_type: holding
-    address: 618
-    unit_of_measurement: "W"
-    state_class: "measurement"
-    accuracy_decimals: 0
-    value_type: S_WORD     
+  # - platform: modbus_controller
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-External CT L3 Power"
+  #   id: sun3p_External_CT_L3_Power
+  #   register_type: holding
+  #   address: 618
+  #   unit_of_measurement: "W"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 0
+  #   value_type: S_WORD     
  
-  - platform: modbus_controller  
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Out-of-grid–total power"
-    id: sun12k_out_of_grid_total_power
-    register_type: holding
-    address: 619
-    unit_of_measurement: "W"
-    state_class: "measurement"
-    accuracy_decimals: 0
-    value_type: S_WORD
+  # - platform: modbus_controller  
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-Out-of-grid–total power"
+  #   id: sun3p_out_of_grid_total_power
+  #   register_type: holding
+  #   address: 619
+  #   unit_of_measurement: "W"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 0
+  #   value_type: S_WORD
     
-  - platform: modbus_controller # Load totalpower
-    modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Load totalpower" 
-    id: sun12k_Load_totalpower
-    register_type: holding
-    address: 653
-    unit_of_measurement: "W"
-    state_class: "measurement"
-    accuracy_decimals: 0
-    value_type: S_WORD
+  # - platform: modbus_controller # Load totalpower
+  #   modbus_controller_id: ${modbus_controller_id}
+  #   name: "sun3p-Load totalpower" 
+  #   id: sun3p_Load_totalpower
+  #   register_type: holding
+  #   address: 653
+  #   unit_of_measurement: "W"
+  #   state_class: "measurement"
+  #   accuracy_decimals: 0
+  #   value_type: S_WORD
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Warning1"
-    id:  sun12k_Warning1
+    name: "sun3p-Warning1"
+    id:  sun3p_Warning1
     register_type: holding
     address: 553
     accuracy_decimals: 0
@@ -830,8 +1195,8 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Warning2"
-    id:  sun12k_Warning2
+    name: "sun3p-Warning2"
+    id:  sun3p_Warning2
     register_type: holding
     address: 554
     accuracy_decimals: 0
@@ -839,8 +1204,8 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Warning3"
-    id:  sun12k_Warning3
+    name: "sun3p-Warning3"
+    id:  sun3p_Warning3
     register_type: holding
     address: 555
     accuracy_decimals: 0
@@ -848,8 +1213,8 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Error1"
-    id:  sun12k_Error1
+    name: "sun3p-Error1"
+    id:  sun3p_Error1
     register_type: holding
     address: 556
     accuracy_decimals: 0
@@ -857,8 +1222,8 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Error2"
-    id:  sun12k_Error2
+    name: "sun3p-Error2"
+    id:  sun3p_Error2
     register_type: holding
     address: 557
     accuracy_decimals: 0
@@ -866,8 +1231,8 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Error3"
-    id:  sun12k_Error3
+    name: "sun3p-Error3"
+    id:  sun3p_Error3
     register_type: holding
     address: 558
     accuracy_decimals: 0
@@ -875,8 +1240,8 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Failure status of communication board"
-    id:  sun12k_Failure_status_of_communication_board
+    name: "sun3p-Failure status of communication board"
+    id:  sun3p_Failure_status_of_communication_board
     register_type: holding
     address: 548
     accuracy_decimals: 0
@@ -884,8 +1249,8 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Minimum insulation impedance"
-    id:  sun12k_Minimum_insulation_impedance
+    name: "sun3p-Minimum insulation impedance"
+    id:  sun3p_Minimum_insulation_impedance
     register_type: holding
     unit_of_measurement: "kΩ"
     state_class: "measurement"
@@ -897,38 +1262,38 @@ sensor:
  
   # Batteri
  
-  # - platform: modbus_controller
-  #   modbus_controller_id: ${modbus_controller_id}
-  #   name: "sun12k-Today charge of the battery"
-  #   id:  sun12k_Today_charge_of_the_battery
-  #   register_type: holding
-  #   address: 514
-  #   unit_of_measurement: "kWh"
-  #   state_class: "total_increasing"
-  #   device_class: energy
-  #   accuracy_decimals: 1
-  #   value_type: U_WORD
-  #   filters:
-  #     - multiply: 0.1
- 
-  # - platform: modbus_controller
-  #   modbus_controller_id: ${modbus_controller_id}
-  #   name: "sun12k-Today discharge of the battery"
-  #   id:  sun12k_Today_discharge_of_the_battery
-  #   register_type: holding
-  #   address: 515
-  #   unit_of_measurement: "kWh"
-  #   state_class: "total_increasing"
-  #   device_class: energy
-  #   accuracy_decimals: 1
-  #   value_type: U_WORD
-  #   filters:
-  #     - multiply: 0.1
+  - platform: modbus_controller
+    modbus_controller_id: ${modbus_controller_id}
+    name: "sun3p-Today charge of the battery"
+    id:  sun3p_Today_charge_of_the_battery
+    register_type: holding
+    address: 514
+    unit_of_measurement: "kWh"
+    state_class: "total_increasing"
+    device_class: energy
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Total charge of the battery"
-    id:  sun12k_battery_total_charge
+    name: "sun3p-Today discharge of the battery"
+    id:  sun3p_Today_discharge_of_the_battery
+    register_type: holding
+    address: 515
+    unit_of_measurement: "kWh"
+    state_class: "total_increasing"
+    device_class: energy
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
+ 
+  - platform: modbus_controller
+    modbus_controller_id: ${modbus_controller_id}
+    name: "sun3p-Total charge of the battery"
+    id:  sun3p_battery_total_charge
     register_type: holding
     address: 516
     unit_of_measurement: "kWh"
@@ -941,8 +1306,8 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "sun12k-Total discharge of the battery"
-    id:  sun12k_battery_total_discharge
+    name: "sun3p-Total discharge of the battery"
+    id:  sun3p_battery_total_discharge
     register_type: holding
     address: 518
     unit_of_measurement: "kWh"
@@ -953,74 +1318,74 @@ sensor:
     filters:
       - multiply: 0.1
  
-  # - platform: modbus_controller
-  #   modbus_controller_id: ${modbus_controller_id}
-  #   name: "sun12k-battery temperature"
-  #   id:  sun12k_battery_temperature
-  #   register_type: holding
-  #   address: 586
-  #   unit_of_measurement: "°C"
-  #   accuracy_decimals: 1
-  #   value_type: U_WORD 
-  #   filters:
-  #     - offset: -1000
-  #     - multiply: 0.1
+  - platform: modbus_controller
+    modbus_controller_id: ${modbus_controller_id}
+    name: "sun3p-battery temperature"
+    id:  sun3p_battery_temperature
+    register_type: holding
+    address: 586
+    unit_of_measurement: "°C"
+    accuracy_decimals: 1
+    value_type: U_WORD 
+    filters:
+      - offset: -1000
+      - multiply: 0.1
  
-  # - platform: modbus_controller
-  #   modbus_controller_id: ${modbus_controller_id}
-  #   name: "sun12k-battery voltage"
-  #   id: sun12k_battery_voltage
-  #   register_type: holding
-  #   address: 587  
-  #   unit_of_measurement: "V"
-  #   state_class: "measurement"
-  #   accuracy_decimals: 2
-  #   filters:
-  #     - multiply: 0.01
-  #   value_type: U_WORD
+  - platform: modbus_controller
+    modbus_controller_id: ${modbus_controller_id}
+    name: "sun3p-battery voltage"
+    id: sun3p_battery_voltage
+    register_type: holding
+    address: 587  
+    unit_of_measurement: "V"
+    state_class: "measurement"
+    accuracy_decimals: 2
+    filters:
+      - multiply: 0.01
+    value_type: U_WORD
  
-  # - platform: modbus_controller
-  #   modbus_controller_id: ${modbus_controller_id}
-  #   name: "sun12k-battery capacity"
-  #   id: sun12k_battery_capacity
-  #   register_type: holding
-  #   address: 588
-  #   unit_of_measurement: "%"
-  #   state_class: "measurement"
-  #   accuracy_decimals: 1
-  #   value_type: U_WORD
+  - platform: modbus_controller
+    modbus_controller_id: ${modbus_controller_id}
+    name: "sun3p-battery capacity"
+    id: sun3p_battery_capacity
+    register_type: holding
+    address: 588
+    unit_of_measurement: "%"
+    state_class: "measurement"
+    accuracy_decimals: 1
+    value_type: U_WORD
  
-  # - platform: modbus_controller
-  #   modbus_controller_id: ${modbus_controller_id}
-  #   name: "sun12k-Battery output power"
-  #   id: sun12k_Battery_output_power
-  #   register_type: holding
-  #   address: 590
-  #   unit_of_measurement: "W"
-  #   state_class: "measurement"
-  #   accuracy_decimals: 0
-  #   value_type: S_WORD 
+  - platform: modbus_controller
+    modbus_controller_id: ${modbus_controller_id}
+    name: "sun3p-Battery output power"
+    id: sun3p_Battery_output_power
+    register_type: holding
+    address: 590
+    unit_of_measurement: "W"
+    state_class: "measurement"
+    accuracy_decimals: 0
+    value_type: S_WORD 
  
-  # - platform: modbus_controller
-  #   modbus_controller_id: ${modbus_controller_id}
-  #   name: "sun12k-Battery output current"
-  #   id: sun12k_Battery_output_current
-  #   register_type: holding
-  #   address: 591
-  #   unit_of_measurement: "A"
-  #   state_class: "measurement"
-  #   accuracy_decimals: 2
-  #   filters:
-  #     - multiply: 0.01
-  #   value_type: S_WORD
+  - platform: modbus_controller
+    modbus_controller_id: ${modbus_controller_id}
+    name: "sun3p-Battery output current"
+    id: sun3p_Battery_output_current
+    register_type: holding
+    address: 591
+    unit_of_measurement: "A"
+    state_class: "measurement"
+    accuracy_decimals: 2
+    filters:
+      - multiply: 0.01
+    value_type: S_WORD
  
-  # - platform: modbus_controller
-  #   modbus_controller_id: ${modbus_controller_id}
-  #   name: "sun12k-The corrected capacity of the battery"
-  #   id: sun12k_The_corrected_capacity_of_the_battery
-  #   register_type: holding
-  #   address: 592
-  #   unit_of_measurement: "Ah"
-  #   state_class: "measurement"
-  #   accuracy_decimals: 0
-    # value_type: U_WORD
+  - platform: modbus_controller
+    modbus_controller_id: ${modbus_controller_id}
+    name: "sun3p-The corrected capacity of the battery"
+    id: sun3p_The_corrected_capacity_of_the_battery
+    register_type: holding
+    address: 592
+    unit_of_measurement: "Ah"
+    state_class: "measurement"
+    accuracy_decimals: 0
+    value_type: U_WORD
