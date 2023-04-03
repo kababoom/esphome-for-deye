@@ -1,7 +1,6 @@
 square: false
 columns: 1
 type: grid
-title: Inverter schedule settings
 cards:
   - type: entities
     entities:
@@ -177,7 +176,7 @@ cards:
     entities:
       - entity: switch.sun3p_time_of_use
       - entity: switch.sun3p_grid_charge
-      - entity: number.sun3p_maximum_battery_discharge_current
-      - entity: number.sun3p_maximum_battery_charge_current
       - entity: select.sun3p_limit_control_mode
         name: Limit Mode
+      - entity: number.sun3p_maximum_battery_discharge_current
+      - entity: number.sun3p_maximum_battery_charge_current
