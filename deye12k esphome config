@@ -17,10 +17,10 @@ logger:
 # Enable Home Assistant API
 api:
   encryption:
-    key: "er+QomzUmVcVvuKfJaWBNIfuj/G3G3KvFGgQbkS5xXk="
+    key: "1234omzUmVcVvuKfJaWBNIfuj/G3G3KvFGgQbkS5xXk="
 
 ota:
-  password: "3f41cea993cfbca3d9d808f9349cbbb0"
+  password: "1234cea993cfbca3d9d808f9349cbbb0"
 
 wifi:
   ssid: !secret wifi_ssid
@@ -49,7 +49,7 @@ modbus_controller:
     address: 0x1
     modbus_id: modbus1
     setup_priority: -10
-    update_interval: 10sec
+    update_interval: 5sec
   
 switch:
   - platform: modbus_controller
@@ -212,6 +212,7 @@ select:
     name: "sun3p-Limit control mode"
     id: sun3p_limit_control_mode
     address: 142
+    # address: 500
     value_type: U_WORD
     optionsmap:
       "Allow Export": 0
@@ -809,16 +810,16 @@ sensor:
   #     - multiply: 0.01
   #   value_type: U_WORD
  
-  # - platform: modbus_controller
-  #   modbus_controller_id: ${modbus_controller_id}
-  #   name: "sun3p-PV1 Power"
-  #   id: sun3p_PV1_Power
-  #   register_type: holding
-  #   address: 672
-  #   unit_of_measurement: "W"
-  #   state_class: "measurement"
-  #   accuracy_decimals: 0
-  #   value_type: U_WORD
+  - platform: modbus_controller
+    modbus_controller_id: ${modbus_controller_id}
+    name: "sun3p-PV1 Power"
+    id: sun3p_PV1_Power
+    register_type: holding
+    address: 672
+    unit_of_measurement: "W"
+    state_class: "measurement"
+    accuracy_decimals: 0
+    value_type: U_WORD
  
   # - platform: modbus_controller
   #   modbus_controller_id: ${modbus_controller_id}
@@ -831,18 +832,18 @@ sensor:
   #   accuracy_decimals: 0
   #   value_type: U_WORD
  
-  # - platform: modbus_controller
-  #   modbus_controller_id: ${modbus_controller_id}
-  #   name: "sun3p-PV1 Voltage"
-  #   id: sun3p_PV1_Voltage
-  #   register_type: holding
-  #   address: 676
-  #   unit_of_measurement: "V"
-  #   state_class: "measurement"
-  #   accuracy_decimals: 0
-  #   filters:
-  #     - multiply: 0.1
-  #   value_type: U_WORD
+  - platform: modbus_controller
+    modbus_controller_id: ${modbus_controller_id}
+    name: "sun3p-PV1 Voltage"
+    id: sun3p_PV1_Voltage
+    register_type: holding
+    address: 676
+    unit_of_measurement: "V"
+    state_class: "measurement"
+    accuracy_decimals: 0
+    filters:
+      - multiply: 0.1
+    value_type: U_WORD
  
   # - platform: modbus_controller
   #   modbus_controller_id: ${modbus_controller_id}
@@ -857,18 +858,18 @@ sensor:
   #     - multiply: 0.1
   #   value_type: U_WORD
  
-  # - platform: modbus_controller
-  #   modbus_controller_id: ${modbus_controller_id}
-  #   name: "sun3p-PV1 Current"
-  #   id: sun3p_PV1_Current
-  #   register_type: holding
-  #   address: 677
-  #   unit_of_measurement: "A"
-  #   state_class: "measurement"
-  #   accuracy_decimals: 1
-  #   filters:
-  #     - multiply: 0.1
-  #   value_type: U_WORD
+  - platform: modbus_controller
+    modbus_controller_id: ${modbus_controller_id}
+    name: "sun3p-PV1 Current"
+    id: sun3p_PV1_Current
+    register_type: holding
+    address: 677
+    unit_of_measurement: "A"
+    state_class: "measurement"
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.1
+    value_type: U_WORD
  
   # - platform: modbus_controller
   #   modbus_controller_id: ${modbus_controller_id}
@@ -883,33 +884,33 @@ sensor:
   #     - multiply: 0.1
   #   value_type: U_WORD  
  
-  # - platform: modbus_controller
-  #   modbus_controller_id: ${modbus_controller_id}
-  #   name: "sun3p-Daily Production"
-  #   id: sun3p_Daily_Production
-  #   register_type: holding
-  #   address: 529
-  #   unit_of_measurement: "kWh"
-  #   state_class: "total_increasing"
-  #   device_class: energy
-  #   accuracy_decimals: 1
-  #   filters:
-  #     - multiply: 0.1
-  #   value_type: U_WORD  
+  - platform: modbus_controller
+    modbus_controller_id: ${modbus_controller_id}
+    name: "sun3p-Daily Production"
+    id: sun3p_Daily_Production
+    register_type: holding
+    address: 529
+    unit_of_measurement: "kWh"
+    state_class: "total_increasing"
+    device_class: energy
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.1
+    value_type: U_WORD  
  
-  # - platform: modbus_controller
-  #   modbus_controller_id: ${modbus_controller_id}
-  #   name: "sun3p-Total PV Production"  #Cumulative Production 
-  #   id: sun3p_Total_PV_Production
-  #   register_type: holding
-  #   address: 534
-  #   unit_of_measurement: "kWh"
-  #   state_class: "measurement"
-  #   device_class: energy
-  #   accuracy_decimals: 1
-  #   value_type: U_DWORD_R
-  #   filters:
-  #     - multiply: 0.1
+  - platform: modbus_controller
+    modbus_controller_id: ${modbus_controller_id}
+    name: "sun3p-Total PV Production"  #Cumulative Production 
+    id: sun3p_Total_PV_Production
+    register_type: holding
+    address: 534
+    unit_of_measurement: "kWh"
+    state_class: "total_increasing"
+    device_class: energy
+    accuracy_decimals: 1
+    value_type: U_DWORD_R
+    filters:
+      - multiply: 0.1
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
